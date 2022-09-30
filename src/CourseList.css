@@ -1,0 +1,21 @@
+.cards{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 23em);
+    column-gap: 5px;
+    justify-items: stretch;
+    align-items: stretch;
+    justify-content: stretch;
+}
+.card{
+    align-self: stretch;
+    border: 1px solid darkgrey;
+    border-radius: 10px;
+}
+.card-top{
+    text-align: left;
+    padding: 2px 0px 0px 5px;
+    margin: 10px;
+}
+.card-bottom{
+    border-top: 1px solid darkgrey;    
+}
