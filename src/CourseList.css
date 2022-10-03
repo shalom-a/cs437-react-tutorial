@@ -1,7 +1,8 @@
 .cards{
     display: grid;
     grid-template-columns: repeat(auto-fit, 23em);
-    column-gap: 5px;
+    column-gap: 15px;
+    row-gap: 15px;
     justify-items: stretch;
     align-items: stretch;
     justify-content: stretch;
