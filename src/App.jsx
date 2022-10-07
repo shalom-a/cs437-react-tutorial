@@ -9,6 +9,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 const selectedCourses = {}
 
 
+
 const Chooser = ({setQuarter}) => {
   return (
     <div>
@@ -21,20 +22,38 @@ const Chooser = ({setQuarter}) => {
 };
 
 const Main = () => {
+  const [selected, setSelected] = useState([]);
+
+  const toggleSelected = (item) => {
+    console.log(item)
+    setSelected(
+    selected.includes(item)
+    ? selected.filter(x => x !== item)
+    : [...selected, item])
+    
+  }
+
   const [data, isLoading, error] = useJsonQuery('https://courses.cs.northwestern.edu/394/guides/data/cs-courses.php');
   const [quarter, setQuarter] = useState('Fall');
+  const changeQuarter=(qrtr)=>{
+    if (qrtr != quarter){
+      setQuarter(qrtr)
+      setSelected([])
+    }
+      
+  }
 
   if (error) return <h1>Error loading user data: {`${error}`}</h1>;
   if (isLoading) return <h1>Loading user data...</h1>;
   if (!data) return <h1>No user data found</h1>;
 
   let newdata = Object.values(data.courses).filter((course)=> course.term == quarter)
-
+  console.log(selected)
   return (
   <>
     <Banner title={data.title}/>
-    <Chooser setQuarter={setQuarter}/>
-    <CourseList courses={newdata}/>
+    <Chooser setQuarter={changeQuarter}/>
+    <CourseList courses={newdata} selected={selected} toggleSelected={toggleSelected}/>
   </>)
 }
 
