@@ -5,10 +5,12 @@ import Banner from './Banner';
 import CourseList from './CourseList';
 import {useJsonQuery} from './utilities/fetch'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import Modal from './Modal';
+import Schedule from './Schedule';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 const selectedCourses = {}
-
-
 
 const Chooser = ({setQuarter}) => {
   return (
@@ -23,6 +25,10 @@ const Chooser = ({setQuarter}) => {
 
 const Main = () => {
   const [selected, setSelected] = useState([]);
+  const [open, setOpen] = useState(false);
+
+  const openModal = () => setOpen(true);
+  const closeModal = () => setOpen(false);
 
   const toggleSelected = (item) => {
     console.log(item)
@@ -38,7 +44,6 @@ const Main = () => {
   const changeQuarter=(qrtr)=>{
     if (qrtr != quarter){
       setQuarter(qrtr)
-      setSelected([])
     }
       
   }
@@ -52,7 +57,13 @@ const Main = () => {
   return (
   <>
     <Banner title={data.title}/>
-    <Chooser setQuarter={changeQuarter}/>
+    <div className='main-buttons'>
+      <Chooser setQuarter={changeQuarter}/>
+      <button className="btn btn-outline-dark m-2 p-2 ms-auto" onClick={openModal}>Course Plan</button>
+    </div>
+    <Modal open={open} close={closeModal}>
+      <Schedule selected={selected}/>
+    </Modal>
     <CourseList courses={newdata} selected={selected} toggleSelected={toggleSelected}/>
   </>)
 }
@@ -65,13 +76,7 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <div className="App">
-        {/* <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-        </header> */}
-        <div>
-
-          <Main/>
-        </div>
+        <Main/>
       </div>
     </QueryClientProvider>
   );
