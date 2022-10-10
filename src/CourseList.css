@@ -20,10 +20,13 @@
 .card-bottom{
     border-top: 1px solid darkgrey;    
 }
-.card-selected {
+#disabled.card-selected {
     align-self: stretch;
     border: 1px solid darkgrey;
     border-radius: 10px;
     background-color:lemonchiffon;
     color: green;
   }
+#disabled{
+    background-color:gainsboro;
+}
