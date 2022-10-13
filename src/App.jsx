@@ -9,6 +9,7 @@ import Modal from './Modal';
 import Schedule from './Schedule';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import EditCourse from './EditCourse';
 
 const selectedCourses = {}
 
@@ -64,7 +65,7 @@ const Main = () => {
     <Modal open={open} close={closeModal}>
       <Schedule selected={selected}/>
     </Modal>
-    <CourseList courses={newdata} selected={selected} toggleSelected={toggleSelected}/>
+    <EditCourse courses={newdata} selected={selected} toggleSelected={toggleSelected}/>
   </>)
 }
 
