@@ -10,6 +10,7 @@ import Schedule from './Schedule';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import EditCourse from './EditCourse';
+import { useDbData } from './utilities/firebase';
 
 const selectedCourses = {}
 
@@ -40,7 +41,8 @@ const Main = () => {
     
   }
 
-  const [data, isLoading, error] = useJsonQuery('https://courses.cs.northwestern.edu/394/guides/data/cs-courses.php');
+  //const [data, isLoading, error] = useJsonQuery('https://courses.cs.northwestern.edu/394/guides/data/cs-courses.php');
+  const [data, error] = useDbData('/')
   const [quarter, setQuarter] = useState('Fall');
   const changeQuarter=(qrtr)=>{
     if (qrtr != quarter){
@@ -50,7 +52,7 @@ const Main = () => {
   }
 
   if (error) return <h1>Error loading user data: {`${error}`}</h1>;
-  if (isLoading) return <h1>Loading user data...</h1>;
+  //if (isLoading) return <h1>Loading user data...</h1>;
   if (!data) return <h1>No user data found</h1>;
 
   let newdata = Object.values(data.courses).filter((course)=> course.term == quarter)
