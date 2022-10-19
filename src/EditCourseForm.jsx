@@ -1,6 +1,7 @@
 //import { useDbUpdate } from './utilities/firebase';
 import { useFormData } from './utilities/useFormData';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useDbUpdate } from './utilities/firebase';
 
 const validateUserData = (key, val) => {
   switch (key) {
@@ -21,30 +22,40 @@ const InputField = ({name, text, state, change}) => (
   </div>
 );
 
-const ButtonBar = () => {
+const ButtonBar = ({message, disabled}) => {
   const navigate = useNavigate();
   return (
     <div className="d-flex">
       <button type="button" className="btn btn-outline-dark me-2" onClick={() => navigate(-1)}>Cancel</button>
+      <button type="submit" className="btn btn-outline-dark me-auto" disabled={disabled}>Submit</button>
+      <span className="p-2">{message}</span>
     </div>
   );
 };
 
 const CourseEditor = ({courses}) => {
     console.log(useParams())
+    const navigate = useNavigate();
     const {term} = useParams().term
     const { id } = useParams().id
-    const [state, change] = useFormData(validateUserData, courses[id])
+    const [state, change] = useFormData(validateUserData, courses[id]);
+    const [update, result] = useDbUpdate(`/courses/${id}`);
     const submit = (evt) => {
-  };
+      evt.preventDefault();
+        if (!state.errors) {
+            console.log("Valid");
+            update(state.values);
+            navigate(-1);
+          };
+      }
 
   return (
     <form onSubmit={submit} noValidate className={state.errors ? 'was-validated' : null}>
       <InputField name="title" text="Course Title" state={state} change={change} />
       <InputField name="meets" text="Meeting Times" state={state} change={change} />
-      <ButtonBar />
+      <ButtonBar message={result?.message}/>
     </form>
   )
 };
 
-export default CourseEditor;
+export default CourseEditor
