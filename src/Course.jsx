@@ -2,7 +2,7 @@ import { hasConflict } from "./Course"
 import './CourseList.css'
 import { Link } from 'react-router-dom'
 
-const Course=({i, course, selected, toggleSelected})=>{
+const Course=({i, course, selected, toggleSelected, profile})=>{
     const Disabled = hasConflict(course, selected) && !selected.includes(course);
 
     const isSelected = selected.includes(course)
@@ -19,7 +19,7 @@ const Course=({i, course, selected, toggleSelected})=>{
                 <div className="card-bottom">
                 <p>{course[1].meets}</p> 
                 </div>
-                <p><Link to={`/edit/${course[1].term}/${i}`}>Edit Course</Link></p>
+                {profile?.isAdmin && <p><Link to={`/edit/${course[1].term}/${i}`}>Edit Course</Link></p>}
             </div>
     )
 }

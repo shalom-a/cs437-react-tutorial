@@ -11,6 +11,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import EditCourse from './EditCourse';
 import { useDbData } from './utilities/firebase';
+import { useProfile } from './utilities/profile';
 
 const selectedCourses = {}
 
@@ -42,7 +43,8 @@ const Main = () => {
   }
 
   //const [data, isLoading, error] = useJsonQuery('https://courses.cs.northwestern.edu/394/guides/data/cs-courses.php');
-  const [data, error] = useDbData('/')
+  const [data, error] = useDbData('/');
+  const [profile, profileLoading, profileError] = useProfile();
   const [quarter, setQuarter] = useState('Fall');
   const changeQuarter=(qrtr)=>{
     if (qrtr != quarter){
@@ -55,6 +57,10 @@ const Main = () => {
   //if (isLoading) return <h1>Loading user data...</h1>;
   if (!data) return <h1>No user data found</h1>;
 
+  if (profileError) return <h1>Error loading profile: {`${profileError}`}</h1>;
+  if (profileLoading) return <h1>Loading user profile</h1>;
+  if (!profile) return <h1>No profile data</h1>;
+  
   let newdata = Object.values(data.courses).filter((course)=> course.term == quarter)
   console.log(selected)
   return (
@@ -67,7 +73,7 @@ const Main = () => {
     <Modal open={open} close={closeModal}>
       <Schedule selected={selected}/>
     </Modal>
-    <EditCourse courses={newdata} selected={selected} toggleSelected={toggleSelected}/>
+    <EditCourse profile={profile} courses={newdata} selected={selected} toggleSelected={toggleSelected}/>
   </>)
 }
 
