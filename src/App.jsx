@@ -15,17 +15,32 @@ import { useProfile } from './utilities/profile';
 
 const selectedCourses = {}
 
-const Chooser = ({setQuarter}) => {
+const Chooser = ({setQuarter, qrter}) => {
   return (
     <div>
-      <button onClick={()=>setQuarter('Fall')}>Fall</button>
-      <button onClick={()=>setQuarter('Winter')}>Winter</button>
-      <button onClick={()=>setQuarter('Spring')}>Spring</button>
+      <div className="btn-toolbar justify-content-between">
+        <div className="btn-group" id="term-btns">
+            {
+                Object.values(qrter).map(
+                    value => <ChooserButton qrter={value} setQuarter={setQuarter} checked={value === qrter} />
+                )
+            }
+        </div>
+      </div>
     </div>
+      
     
   );
 };
-
+const ChooserButton = ({ qrter, setQuarter, checked }) => (
+  <div>
+    <input type="radio" id={qrter} className="btn-check" checked={checked} autoComplete="off"
+          onChange={() => setQuarter(qrter)} />
+      <label className="btn btn-success m-1 p-2" htmlFor={qrter} data-cy={qrter}>
+          {qrter}
+      </label>
+  </div>
+);
 const Main = () => {
   const [selected, setSelected] = useState([]);
   const [open, setOpen] = useState(false);
@@ -67,7 +82,7 @@ const Main = () => {
   <>
     <Banner title={data.title}/>
     <div className='main-buttons'>
-      <Chooser setQuarter={changeQuarter}/>
+      <Chooser qrter={['Fall', 'Winter', 'Spring']} setQuarter={changeQuarter}/>
       <button className="btn btn-outline-dark m-2 p-2 ms-auto" onClick={openModal}>Course Plan</button>
     </div>
     <Modal open={open} close={closeModal}>

@@ -9,7 +9,7 @@ const Course=({i, course, selected, toggleSelected, profile})=>{
     //const style={backgroundColor: isSelected? 'lemonchiffon': Disabled? 'grey' : 'white' }
 
     return(
-        <div key={i} className={`card${selected.includes(course[1]) ? '-selected' : ''}`} 
+        <div data-cy="course" key={i} className={`card${selected.includes(course[1]) ? '-selected' : ''}`} 
                 id={Disabled? 'disabled': 'nope'}
                 onClick={() => (Disabled && isSelected)? null: toggleSelected(course[1])}>
                 <div className="card-top">
