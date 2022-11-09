@@ -18,12 +18,10 @@
       "port": 5000
     },
     "auth": {
-      "port": 9099,
-      "host": "127.0.0.1"
+      "port": 9099
     },
     "database": {
-      "port": 9000,
-      "host": "127.0.0.1"
+      "port": 9000
     },
     "ui": {
       "enabled": true
