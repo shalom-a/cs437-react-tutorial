@@ -17,6 +17,7 @@ const firebaseConfig = {
 
 const firebase = initializeApp(firebaseConfig);
 const database = getDatabase(firebase);
+const auth = getAuth(firebase);
 
 export const useDbData = (path) => {
     const [data, setData] = useState();
@@ -56,6 +57,18 @@ export const useDbData = (path) => {
   
     return [user];
   };
+
+  
+if (!windows.EMULATION && import.meta.env.VITE_EMULATE) {
+  connectAuthEmulator(auth, "http://127.0.0.1:9099");
+  connectDatabaseEmulator(database, "127.0.0.1", 9000);
+
+  signInWithCredential(auth, GoogleAuthProvider.credential(
+    '{"sub": "qEvli4msW0eDz5mSVO6j3W7i8w1k", "email": "tester@gmail.com", "displayName":"Test User", "email_verified": true}'
+  ));
+  
+  windows.EMULATION = true;
+}
   
   export const useDbUpdate = (path) => {
     const [result, setResult] = useState();
